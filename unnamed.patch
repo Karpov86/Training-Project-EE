@@ -1,0 +1,983 @@
+Index: src/by/karpov/service/AppointmentWithDoctor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/AppointmentWithDoctor.java	(date 1582964702153)
++++ src/by/karpov/service/AppointmentWithDoctor.java	(date 1582964702153)
+@@ -0,0 +1,10 @@
++package by.karpov.service;
++
++import by.karpov.entity.Doctor;
++
++import java.util.Date;
++
++public interface AppointmentWithDoctor {
++
++    boolean appointment(Doctor doctor, Date date);
++}
+Index: src/by/karpov/service/AppointmentWithDoctorImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/AppointmentWithDoctorImpl.java	(date 1582964702155)
++++ src/by/karpov/service/AppointmentWithDoctorImpl.java	(date 1582964702155)
+@@ -0,0 +1,23 @@
++package by.karpov.service;
++
++import by.karpov.entity.Doctor;
++
++import java.util.Date;
++
++public class AppointmentWithDoctorImpl implements AppointmentWithDoctor {
++
++    @Override
++    public boolean appointment(Doctor doctor, Date date) {
++
++        if (checkDate(date)) {
++            System.out.println("Вы записаны к " + doctor.getSurname() + "прием " + date);
++            return true;
++        }
++        return false;
++    }
++
++    private boolean checkDate(Date date) {
++        // запрос в БД 'Visits', если дата свободна возвращаем true
++        return false;
++    }
++}
+Index: src/by/karpov/entity/Specialty.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Specialty.java	(date 1582964702147)
++++ src/by/karpov/entity/Specialty.java	(date 1582964702147)
+@@ -0,0 +1,23 @@
++package by.karpov.entity;
++
++public enum Specialty {
++
++    THERAPIST,
++    CARDIOLOGIST,
++    HEMATOLOGIST,
++    SURGEON,
++    GYNECOLOGIST,
++    ONCOLOGIST,
++    TRAUMATOLOGIST,
++    UROLOGIST,
++    OPHTHALMOLOGIST,
++    OTOLARYNGOLOGIST,
++    NEUROLOGIST,
++    PSYCHIATRIST_NARCOLOGIST,
++    PSYCHOTHERAPIST,
++    ULTRASOUND_DOCTOR,
++    FUNCTIONAL_DIAGNOSTIC_DOCTOR,
++    RADIOLOGIST,
++    REHABILITATION,
++    DERMATOVENEROLOGIST
++}
+Index: src/by/karpov/service/ToDiagnose.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/ToDiagnose.java	(date 1582964702160)
++++ src/by/karpov/service/ToDiagnose.java	(date 1582964702160)
+@@ -0,0 +1,9 @@
++package by.karpov.service;
++
++import by.karpov.entity.Doctor;
++import by.karpov.entity.Patient;
++
++public interface ToDiagnose {
++
++    String diagnosis(Patient patient, Doctor doctor);
++}
+Index: src/by/karpov/dao/PersonDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/PersonDao.java	(date 1583058179467)
++++ src/by/karpov/dao/PersonDao.java	(date 1583058179467)
+@@ -0,0 +1,12 @@
++package by.karpov.dao;
++
++public interface PersonDao<T> {
++
++    boolean save(T entity);
++
++    void read();
++
++    boolean updateAddress(T entity);
++
++    boolean delete(T entity);
++}
+Index: src/by/karpov/entity/Sex.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Sex.java	(date 1582964702145)
++++ src/by/karpov/entity/Sex.java	(date 1582964702145)
+@@ -0,0 +1,11 @@
++package by.karpov.entity;
++
++public enum Sex {
++
++    MALE,
++    FEMALE,
++    FTM,
++    MTF,
++    NEUTROIS,
++    ANDROGYNE
++}
+Index: src/by/karpov/entity/Doctor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Doctor.java	(date 1583058179343)
++++ src/by/karpov/entity/Doctor.java	(date 1583058179343)
+@@ -0,0 +1,60 @@
++package by.karpov.entity;
++
++import java.util.Objects;
++
++public class Doctor extends Person {
++
++    private int workExperience;
++    private Specialty specialty;
++
++    public Doctor(String name, String surname, String address, Sex sex, int workExperience, Specialty specialty) {
++        super(name, surname, address, sex);
++        this.workExperience = workExperience;
++        this.specialty = specialty;
++    }
++
++
++    public Doctor() {
++
++    }
++
++
++    public int getWorkExperience() {
++        return workExperience;
++    }
++
++    public void setWorkExperience(int workExperience) {
++        this.workExperience = workExperience;
++    }
++
++    public Specialty getSpecialty() {
++        return specialty;
++    }
++
++    public void setSpecialty(Specialty specialty) {
++        this.specialty = specialty;
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (o == null || getClass() != o.getClass()) return false;
++        if (!super.equals(o)) return false;
++        Doctor doctor = (Doctor) o;
++        return specialty == doctor.specialty;
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(super.hashCode(), specialty);
++    }
++
++    @Override
++    public String toString() {
++        return "Doctor{" +
++                "name=" + getName() +
++                "workExperience=" + workExperience +
++                ", specialty=" + specialty +
++                '}';
++    }
++}
+Index: src/by/karpov/entity/Person.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Person.java	(date 1583058179518)
++++ src/by/karpov/entity/Person.java	(date 1583058179518)
+@@ -0,0 +1,102 @@
++package by.karpov.entity;
++
++import java.util.Objects;
++
++public abstract class Person {
++
++    private Long id;
++    private String name;
++    private String surname;
++    private String address;
++    private Sex sex;
++
++
++    public Person(Long id, String name, String surname, String address, Sex sex) {
++        this.id = id;
++        this.name = name;
++        this.surname = surname;
++        this.address = address;
++        this.sex = sex;
++
++    }
++
++    public Person(String name, String surname, String address, Sex sex) {
++        this.name = name;
++        this.surname = surname;
++        this.address = address;
++        this.sex = sex;
++    }
++
++    public Person() {
++
++    }
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public String getSurname() {
++        return surname;
++    }
++
++    public void setSurname(String surname) {
++        this.surname = surname;
++    }
++
++    public String getAddress() {
++        return address;
++    }
++
++    public void setAddress(String address) {
++        this.address = address;
++    }
++
++    public Sex getSex() {
++        return sex;
++    }
++
++    public void setSex(Sex sex) {
++        this.sex = sex;
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (o == null || getClass() != o.getClass()) return false;
++        Person person = (Person) o;
++        return Objects.equals(id, person.id) &&
++                Objects.equals(name, person.name) &&
++                Objects.equals(surname, person.surname) &&
++                Objects.equals(address, person.address) &&
++                sex == person.sex;
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(id, name, surname, address, sex);
++    }
++
++    @Override
++    public String toString() {
++        return "Person{" +
++                "id=" + id +
++                ", name='" + name + '\'' +
++                ", surname='" + surname + '\'' +
++                ", address='" + address + '\'' +
++                ", sex=" + sex +
++                '}';
++    }
++}
++
+Index: src/by/karpov/dao/DoctorDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/DoctorDaoImpl.java	(date 1583058179320)
++++ src/by/karpov/dao/DoctorDaoImpl.java	(date 1583058179320)
+@@ -0,0 +1,120 @@
++package by.karpov.dao;
++
++import by.karpov.entity.Doctor;
++import by.karpov.entity.Sex;
++import by.karpov.entity.Specialty;
++
++import java.sql.*;
++import java.util.ArrayList;
++import java.util.List;
++
++public class DoctorDaoImpl implements PersonDao<Doctor> {
++
++    private static DoctorDaoImpl INSTANCE;
++
++    private DoctorDaoImpl() {
++    }
++
++    public static DoctorDaoImpl newInstance() {
++        if (INSTANCE == null) {
++            synchronized (DoctorDaoImpl.class) {
++                if (INSTANCE == null) {
++                    INSTANCE = new DoctorDaoImpl();
++                }
++            }
++        }
++        return INSTANCE;
++    }
++
++    public boolean save(Doctor doctor) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            String sql = "INSERT INTO doctors (name, surname, address, sex, speciality, work_experience) VALUES (?, ?, ?, ?, ?, ?);";
++            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
++            statement.setString(1, doctor.getName());
++            statement.setString(2, doctor.getSurname());
++            statement.setString(3, doctor.getAddress());
++            statement.setString(4, String.valueOf(doctor.getSex()));
++            statement.setString(5, String.valueOf(doctor.getSpecialty()));
++            statement.setInt(6, doctor.getWorkExperience());
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    public boolean updateAddress(Doctor doctor) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            PreparedStatement statement = connection.prepareStatement("UPDATE doctors SET address = ? WHERE id = ?;");
++            statement.setString(1, new Doctor().getAddress());
++            statement.setLong(2, doctor.getId());
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    public boolean delete(Doctor doctor) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            PreparedStatement statement = connection.prepareStatement("DELETE FROM doctors WHERE id = ?;");
++            statement.setLong(1, doctor.getId());
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    public void read() {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            PreparedStatement statement = connection.prepareStatement("SELECT * FROM doctors;");
++            ResultSet resultSet = statement.executeQuery();
++
++            while (resultSet.next()) {
++                System.out.println(resultSet.getString("name") + " " + resultSet.getString("surname")
++                        + "\naddress: " + resultSet.getString("address") + "\nsex: " + resultSet.getString("sex") + ", speciality: " +
++                        resultSet.getString("speciality") + "\nwork experience " + resultSet.getInt("work_experience") + " years");
++                System.out.println("===========================================================");
++            }
++
++            resultSet.close();
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++    }
++
++    public List<Doctor> getDoctors() {
++        ArrayList<Doctor> doctors = new ArrayList<>();
++        try (Connection connection = ConnectionManager.newConnection()) {
++            PreparedStatement statement = connection.prepareStatement("SELECT * FROM doctors;");
++            ResultSet resultSet = statement.executeQuery();
++
++            while (resultSet.next()) {
++                doctors.add(new Doctor(resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("address"),
++                        Sex.valueOf(resultSet.getString("sex")), resultSet.getInt("work_experience"), Specialty.valueOf(resultSet.getString("speciality"))));
++            }
++
++            resultSet.close();
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++        return doctors;
++    }
++
++}
+Index: src/by/karpov/dao/VisitDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/VisitDaoImpl.java	(date 1583058179335)
++++ src/by/karpov/dao/VisitDaoImpl.java	(date 1583058179335)
+@@ -0,0 +1,63 @@
++package by.karpov.dao;
++
++import by.karpov.entity.Doctor;
++import by.karpov.entity.Patient;
++import by.karpov.entity.Visit;
++
++import java.sql.Connection;
++import java.sql.PreparedStatement;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++public class VisitDaoImpl implements VisitDao<Doctor, Patient, Visit> {
++
++    private static VisitDaoImpl INSTANCE;
++
++    private VisitDaoImpl() {
++    }
++
++    public static VisitDaoImpl newInstance() {
++        if (INSTANCE == null) {
++            synchronized (VisitDaoImpl.class) {
++                if (INSTANCE == null) {
++                    INSTANCE = new VisitDaoImpl();
++                }
++            }
++        }
++        return INSTANCE;
++    }
++
++    @Override
++    public boolean save(Doctor doctor, Patient patient, Visit visit) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            String sql = "INSERT INTO visits (date, doctor_id, patient_id) VALUES (?, ?, ?);";
++            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
++            statement.setDate(1, visit.getDate());
++            statement.setLong(2, doctor.getId());
++            statement.setLong(3, patient.getId());
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    @Override
++    public void read() {
++
++    }
++
++    @Override
++    public boolean update(Visit visit) {
++        return false;
++    }
++
++    @Override
++    public boolean delete(Visit visit) {
++        return false;
++    }
++}
+Index: src/by/karpov/dao/InsuranceDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/InsuranceDaoImpl.java	(date 1583058179499)
++++ src/by/karpov/dao/InsuranceDaoImpl.java	(date 1583058179499)
+@@ -0,0 +1,61 @@
++package by.karpov.dao;
++
++import by.karpov.entity.Insurance;
++import by.karpov.entity.Patient;
++
++import java.sql.Connection;
++import java.sql.PreparedStatement;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++public class InsuranceDaoImpl implements InsuranceDao<Insurance, Patient> {
++    private static InsuranceDaoImpl INSTANCE;
++
++    private InsuranceDaoImpl() {
++    }
++
++    public static InsuranceDaoImpl newInstance() {
++
++        if (INSTANCE == null) {
++            synchronized (InsuranceDaoImpl.class) {
++                if (INSTANCE == null) {
++                    INSTANCE = new InsuranceDaoImpl();
++                }
++            }
++        }
++        return INSTANCE;
++    }
++
++    public boolean save(Insurance insurance, Patient patient) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            String sql = "INSERT INTO insurance (date_from, date_to, patient_id) VALUES (?, ?, ?);";
++            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
++            statement.setString(1, String.valueOf(insurance.getDateFrom()));
++            statement.setString(2, String.valueOf(insurance.getDateTo()));
++            statement.setLong(3, patient.getId());
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    @Override
++    public void read() {
++
++    }
++
++    @Override
++    public boolean update(Patient patient) {
++        return false;
++    }
++
++    @Override
++    public boolean delete(Patient patient) {
++        return false;
++    }
++}
+Index: src/by/karpov/dao/InsuranceDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/InsuranceDao.java	(date 1583058179491)
++++ src/by/karpov/dao/InsuranceDao.java	(date 1583058179491)
+@@ -0,0 +1,12 @@
++package by.karpov.dao;
++
++public interface InsuranceDao<T, V> {
++
++    boolean save(T entity1, V entity2);
++
++    void read();
++
++    boolean update(V entity);
++
++    boolean delete(V entity);
++}
+Index: src/by/karpov/dao/ConnectionManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/ConnectionManager.java	(date 1582964702119)
++++ src/by/karpov/dao/ConnectionManager.java	(date 1582964702119)
+@@ -0,0 +1,17 @@
++package by.karpov.dao;
++
++import java.sql.Connection;
++import java.sql.DriverManager;
++import java.sql.SQLException;
++
++public class ConnectionManager {
++
++    private static final String URL = "jdbc:mysql://localhost:3306/project_bykarpov?useSSL=false&serverTimezone=UTC";
++
++    private static final String USERNAME = "root";
++    private static final String PASSWORD = "root";
++
++    public static Connection newConnection() throws SQLException {
++        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
++    }
++}
+Index: src/by/karpov/dao/PatientDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/PatientDaoImpl.java	(date 1583058179311)
++++ src/by/karpov/dao/PatientDaoImpl.java	(date 1583058179311)
+@@ -0,0 +1,60 @@
++package by.karpov.dao;
++
++import by.karpov.entity.Patient;
++
++import java.sql.Connection;
++import java.sql.PreparedStatement;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++public class PatientDaoImpl implements PersonDao<Patient> {
++    private static PatientDaoImpl INSTANCE;
++
++    private PatientDaoImpl() {
++    }
++
++    public static PatientDaoImpl newInstance() {
++        if (INSTANCE == null) {
++            synchronized (PatientDaoImpl.class) {
++                if (INSTANCE == null) {
++                    INSTANCE = new PatientDaoImpl();
++                }
++            }
++        }
++        return INSTANCE;
++    }
++
++    public boolean save(Patient patient) {
++
++        try (Connection connection = ConnectionManager.newConnection()) {
++            String sql = "INSERT INTO patients (name, surname, address, sex) VALUES (?, ?, ?, ?);";
++            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
++            statement.setString(1, patient.getName());
++            statement.setString(2, patient.getSurname());
++            statement.setString(3, patient.getAddress());
++            statement.setString(4, String.valueOf(patient.getSex()));
++            statement.executeUpdate();
++
++            statement.close();
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        }
++        return true;
++    }
++
++    @Override
++    public void read() {
++
++    }
++
++    @Override
++    public boolean updateAddress(Patient patient) {
++        return false;
++    }
++
++    @Override
++    public boolean delete(Patient patient) {
++        return false;
++    }
++}
+Index: src/by/karpov/dao/VisitDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/dao/VisitDao.java	(date 1583058179391)
++++ src/by/karpov/dao/VisitDao.java	(date 1583058179391)
+@@ -0,0 +1,12 @@
++package by.karpov.dao;
++
++public interface VisitDao<T, V, D> {
++
++    boolean save(T entity1, V entity2, D entity3);
++
++    void read();
++
++    boolean update(D entity);
++
++    boolean delete(D entity);
++}
+Index: src/by/karpov/entity/Visit.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Visit.java	(date 1583058179327)
++++ src/by/karpov/entity/Visit.java	(date 1583058179327)
+@@ -0,0 +1,75 @@
++package by.karpov.entity;
++
++import java.sql.Date;
++import java.util.Objects;
++
++public class Visit {
++    private Long id;
++    private Date date;
++    private Doctor doctor;
++    private Patient patient;
++
++    public Visit(Date date, Doctor doctor, Patient patient) {
++        this.date = date;
++        this.doctor = doctor;
++        this.patient = patient;
++    }
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public Date getDate() {
++        return date;
++    }
++
++    public void setDate(Date date) {
++        this.date = date;
++    }
++
++    public Doctor getDoctor() {
++        return doctor;
++    }
++
++    public void setDoctor(Doctor doctor) {
++        this.doctor = doctor;
++    }
++
++    public Patient getPatient() {
++        return patient;
++    }
++
++    public void setPatient(Patient patient) {
++        this.patient = patient;
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (o == null || getClass() != o.getClass()) return false;
++        Visit visit = (Visit) o;
++        return Objects.equals(id, visit.id) &&
++                Objects.equals(date, visit.date) &&
++                Objects.equals(doctor, visit.doctor) &&
++                Objects.equals(patient, visit.patient);
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(id, date, doctor, patient);
++    }
++
++    @Override
++    public String toString() {
++        return "Visit{" +
++                "id=" + id +
++                ", date=" + date +
++                ", doctor=" + doctor +
++                ", patient=" + patient +
++                '}';
++    }
++}
+Index: src/by/karpov/entity/Patient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Patient.java	(date 1582964702141)
++++ src/by/karpov/entity/Patient.java	(date 1582964702141)
+@@ -0,0 +1,35 @@
++package by.karpov.entity;
++
++import java.util.Objects;
++
++public class Patient extends Person {
++
++    private Insurance insurance;
++
++    public Patient(Long id, String name, String surname, String address, Sex sex, Insurance insurance) {
++        super(id, name, surname, address, sex);
++        this.insurance = insurance;
++    }
++
++    public Insurance getInsurance() {
++        return insurance;
++    }
++
++    public void setInsurance(Insurance insurance) {
++        this.insurance = insurance;
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (o == null || getClass() != o.getClass()) return false;
++        if (!super.equals(o)) return false;
++        Patient patient = (Patient) o;
++        return Objects.equals(insurance, patient.insurance);
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(super.hashCode(), insurance);
++    }
++}
+Index: src/by/karpov/entity/Insurance.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/entity/Insurance.java	(date 1582964702139)
++++ src/by/karpov/entity/Insurance.java	(date 1582964702139)
+@@ -0,0 +1,67 @@
++package by.karpov.entity;
++
++import java.util.Date;
++import java.util.Objects;
++
++public class Insurance {
++
++    private Long id;
++    private Person person;
++    private Date dateFrom;
++    private Date dateTo;
++
++    public Insurance(Long id, Person person, Date dateFrom, Date dateTo) {
++        this.id = id;
++        this.person = person;
++        this.dateFrom = dateFrom;
++        this.dateTo = dateTo;
++    }
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public Person getPerson() {
++        return person;
++    }
++
++    public void setPerson(Person person) {
++        this.person = person;
++    }
++
++    public Date getDateFrom() {
++        return dateFrom;
++    }
++
++    public void setDateFrom(Date dateFrom) {
++        this.dateFrom = dateFrom;
++    }
++
++    public Date getDateTo() {
++        return dateTo;
++    }
++
++    public void setDateTo(Date dateTo) {
++        this.dateTo = dateTo;
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (o == null || getClass() != o.getClass()) return false;
++        Insurance insurance = (Insurance) o;
++        return Objects.equals(id, insurance.id) &&
++                Objects.equals(person, insurance.person) &&
++                Objects.equals(dateFrom, insurance.dateFrom) &&
++                Objects.equals(dateTo, insurance.dateTo);
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(id, person, dateFrom, dateTo);
++    }
++}
+\ No newline at end of file
+Index: src/by/karpov/service/PatientRegistrationServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/PatientRegistrationServiceImpl.java	(date 1582964702158)
++++ src/by/karpov/service/PatientRegistrationServiceImpl.java	(date 1582964702158)
+@@ -0,0 +1,17 @@
++package by.karpov.service;
++
++import by.karpov.entity.Patient;
++
++public class PatientRegistrationServiceImpl implements PatientRegistrationService {
++
++    @Override
++    public boolean register(Patient patient) {
++/*
++        Date localDate = new Date();
++        Date birthDate = patient.getBirthDate();
++        long age = (birthDate.getTime() - localDate.getTime()) / (24 * 60 * 60 * 1000);
++        return patient.getInsurance() != null && age >= (18 * 365 + 5) || age >= (18 * 365 + 4);
++    }*/
++        return true;
++    }
++}
+\ No newline at end of file
+Index: src/by/karpov/service/ToDiagnoseImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/ToDiagnoseImpl.java	(date 1582964702163)
++++ src/by/karpov/service/ToDiagnoseImpl.java	(date 1582964702163)
+@@ -0,0 +1,16 @@
++package by.karpov.service;
++
++import by.karpov.entity.Doctor;
++import by.karpov.entity.Patient;
++
++public class ToDiagnoseImpl implements ToDiagnose {
++
++    @Override
++    public String diagnosis(Patient patient, Doctor doctor) {
++
++        String diagnose;
++        diagnose = patient.getSurname() + " " + patient.getName() + " Some diagnose, recommendations, \n" +
++                "treatment." + doctor.getSurname() + doctor.getName();
++        return diagnose;
++    }
++}
+Index: src/by/karpov/service/PatientRegistrationService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/by/karpov/service/PatientRegistrationService.java	(date 1582964702157)
++++ src/by/karpov/service/PatientRegistrationService.java	(date 1582964702157)
+@@ -0,0 +1,8 @@
++package by.karpov.service;
++
++import by.karpov.entity.Patient;
++
++public interface PatientRegistrationService {
++
++    boolean register(Patient patient);
++}
