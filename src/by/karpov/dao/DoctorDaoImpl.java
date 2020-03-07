@@ -15,7 +15,7 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
     private DoctorDaoImpl() {
     }
 
-    public static DoctorDaoImpl newInstance() {
+    public static DoctorDaoImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (DoctorDaoImpl.class) {
                 if (INSTANCE == null) {

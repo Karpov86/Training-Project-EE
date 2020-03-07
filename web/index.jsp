@@ -1,10 +1,7 @@
-<%@ page import="by.karpov.dao.DoctorDaoImpl" %>
-<%@ page import="by.karpov.entity.Doctor" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Test JSP</title>
+    <title>Sacred Heart</title>
     <style>
         body {
             background-color: #e3e3e3
@@ -23,16 +20,8 @@
     </style>
 </head>
 <body>
-<h1>Test JSP</h1>
-<p>
-    <% DoctorDaoImpl doctorDao = DoctorDaoImpl.newInstance();
-        List<Doctor> doctors = doctorDao.getDoctors();
-        for (Doctor d : doctors) {
-            out.println("<p>" + d.getName() + " " + d.getSurname() + ", address: " + d.getAddress() + ", sex: " + d.getSex() + ", specialty: " + d.getSpecialty() + "</p>");
-        }
-    %>
-
-</p>
+<h1>HOME PAGE</h1>
+<p></p>
 
 </body>
 </html>

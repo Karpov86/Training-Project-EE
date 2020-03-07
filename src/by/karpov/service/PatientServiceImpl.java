@@ -1,7 +1,7 @@
 package by.karpov.service;
 
+import by.karpov.dao.PatientDaoImpl;
 import by.karpov.entity.Patient;
-import by.karpov.entity.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,8 @@ public class PatientServiceImpl implements PersonService<Patient> {
 
     @Override
     public boolean save(Patient patient) {
-        return false;
+        PatientDaoImpl patientDao = PatientDaoImpl.getInstance();
+        return patientDao.save(patient);
     }
 
     @Override
@@ -20,7 +21,8 @@ public class PatientServiceImpl implements PersonService<Patient> {
     }
 
     @Override
-    public Patient find(Patient entity) {
-        return null;
+    public Patient find(Patient patient) {
+        PatientDaoImpl patientDao = PatientDaoImpl.getInstance();
+        return patientDao.find(patient);
     }
 }

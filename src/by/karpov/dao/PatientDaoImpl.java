@@ -1,11 +1,9 @@
 package by.karpov.dao;
 
 import by.karpov.entity.Patient;
+import by.karpov.entity.Sex;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class PatientDaoImpl implements PersonDao<Patient> {
     private static PatientDaoImpl INSTANCE;
@@ -13,7 +11,7 @@ public class PatientDaoImpl implements PersonDao<Patient> {
     private PatientDaoImpl() {
     }
 
-    public static PatientDaoImpl newInstance() {
+    public static PatientDaoImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (PatientDaoImpl.class) {
                 if (INSTANCE == null) {
@@ -59,7 +57,28 @@ public class PatientDaoImpl implements PersonDao<Patient> {
     }
 
     @Override
-    public Patient find(Patient entity) {
-        return null;
+    public Patient find(Patient patient) {
+        Patient reqPatient = null;
+        try (Connection connection = ConnectionManager.newConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients WHERE id = ?;");
+            statement.setLong(1, patient.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                reqPatient = new Patient.Builder()
+                        .setName(resultSet.getString("name"))
+                        .setSurname(resultSet.getString("surname"))
+                        .setAddress(resultSet.getString("address"))
+                        .setSex(Sex.valueOf(resultSet.getString("sex")))
+                        .build();
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reqPatient;
     }
 }

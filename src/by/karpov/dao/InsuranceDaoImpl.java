@@ -14,7 +14,7 @@ public class InsuranceDaoImpl implements InsuranceDao<Insurance, Patient> {
     private InsuranceDaoImpl() {
     }
 
-    public static InsuranceDaoImpl newInstance() {
+    public static InsuranceDaoImpl getInstance() {
 
         if (INSTANCE == null) {
             synchronized (InsuranceDaoImpl.class) {

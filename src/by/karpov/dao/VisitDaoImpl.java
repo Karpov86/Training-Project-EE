@@ -16,7 +16,7 @@ public class VisitDaoImpl implements VisitDao<Doctor, Patient, Visit> {
     private VisitDaoImpl() {
     }
 
-    public static VisitDaoImpl newInstance() {
+    public static VisitDaoImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (VisitDaoImpl.class) {
                 if (INSTANCE == null) {
