@@ -21,6 +21,9 @@
         <button type="reset">Reset</button>
     </p>
 </form>
+<form action="http://localhost:8080/">
+    <button>To homepage</button>
+</form>
 <datalist id="genderList">
     <option value="MALE"/>
     <option value="FEMALE"/>

@@ -52,7 +52,11 @@
             out.println(result);
         }
     %>
-
 </table>
+<p>
+<form action="http://localhost:8080/">
+    <button>To homepage</button>
+</form>
+</p>
 </body>
 </html>
