@@ -4,10 +4,10 @@
     <Resource name="jdbc/ConnectionPool"
               auth="Container"
               type="javax.sql.DataSource"
-              username="user"
-              password="user"
+              username="root"
+              password="root"
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://хост:3306/project_bykarpov?autoReconnect=true"
+              url="jdbc:mysql://localhost:3306/project_bykarpov?autoReconnect=true"
               validationQuery="select 1"
               maxActive="10"
               maxIdle="4"/>

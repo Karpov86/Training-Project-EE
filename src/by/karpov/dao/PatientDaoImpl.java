@@ -44,6 +44,19 @@ public class PatientDaoImpl implements PersonDao<Patient> {
     @Override
     public void read() {
 
+        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients;");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("name") + " " + resultSet.getString("surname"));
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
