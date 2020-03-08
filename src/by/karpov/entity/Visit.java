@@ -1,17 +1,18 @@
 package by.karpov.entity;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Visit {
     private Long id;
-    private String date;
+    private LocalDate date;
     private Doctor doctor;
     private Patient patient;
 
     public Visit() {
     }
 
-    public Visit(String date, Doctor doctor, Patient patient) {
+    public Visit(LocalDate date, Doctor doctor, Patient patient) {
         this.date = date;
         this.doctor = doctor;
         this.patient = patient;
@@ -25,11 +26,11 @@ public class Visit {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -88,7 +89,7 @@ public class Visit {
             return this;
         }
 
-        public Builder setDate(String date) {
+        public Builder setDate(LocalDate date) {
             newVisit.setDate(date);
             return this;
         }

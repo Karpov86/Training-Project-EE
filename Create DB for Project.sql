@@ -29,7 +29,7 @@ CREATE TABLE `insurance` (
 );
 CREATE TABLE `visits` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `date` varchar(45) DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `doctor_id` int NOT NULL,
   `patient_id` int NOT NULL,
   PRIMARY KEY (`id`),

@@ -13,8 +13,12 @@
 <body>
 <h2 style="color: forestgreen">Choose a specialist</h2>
 <p align="center">
-<form action="http://localhost:8080/">
-    <button>THERAPIST</button>
+<form action=${pageContext.request.contextPath}/visit" method="post">
+    <button inputmode="specialty">THERAPIST</button>
+    <button inputmode="specialty">SURGEON</button>
+    <button inputmode="specialty">SURGEON</button>
+    <button inputmode="specialty">CARDIOLOGIST</button>
+    <button inputmode="specialty">GYNECOLOGIST</button>
 </form>
 </p>
 </body>
