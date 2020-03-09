@@ -12,11 +12,4 @@ public class InsuranceServiceImpl implements InsuranceService<Insurance, Patient
         insuranceDao.save(insurance, patient);
         return true;
     }
-
-    @Override
-    public boolean read() {
-        InsuranceDaoImpl insuranceDao = InsuranceDaoImpl.getInstance();
-        insuranceDao.read();
-        return true;
-    }
 }

@@ -11,14 +11,14 @@
     <title>Specialty</title>
 </head>
 <body>
-<h2 style="color: forestgreen">Choose a specialist</h2>
+<h2 style="color: forestgreen">Choose the specialist</h2>
 <p align="center">
-<form action=${pageContext.request.contextPath}/visit" method="post">
-    <button inputmode="specialty">THERAPIST</button>
+<form action="${pageContext.request.contextPath}/visit" method="get">
+    <button type="submit" name="specialty">THERAPIST</button>
     <button inputmode="specialty">SURGEON</button>
     <button inputmode="specialty">SURGEON</button>
     <button inputmode="specialty">CARDIOLOGIST</button>
-    <button inputmode="specialty">GYNECOLOGIST</button>
+    <button type="submit" name="specialty">GYNECOLOGIST</button>
 </form>
 </p>
 </body>

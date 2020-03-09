@@ -41,7 +41,7 @@
     </tr>
     <%
         DoctorServiceImpl doctorService = new DoctorServiceImpl();
-        List<Doctor> doctors = doctorService.read();
+        List<Doctor> doctors = doctorService.findAll();
         for (Doctor doctor : doctors) {
             StringBuilder result = new StringBuilder();
             result.append("<tr>")

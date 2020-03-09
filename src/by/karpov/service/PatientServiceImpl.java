@@ -3,7 +3,6 @@ package by.karpov.service;
 import by.karpov.dao.PatientDaoImpl;
 import by.karpov.entity.Patient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatientServiceImpl implements PersonService<Patient> {
@@ -15,14 +14,13 @@ public class PatientServiceImpl implements PersonService<Patient> {
     }
 
     @Override
-    public List<Patient> read() {
-        List<Patient> patients = new ArrayList<>();
-        return patients;
+    public Patient find(Long id) {
+        PatientDaoImpl patientDao = PatientDaoImpl.getInstance();
+        return patientDao.find(id);
     }
 
     @Override
-    public Patient find(Patient patient) {
-        PatientDaoImpl patientDao = PatientDaoImpl.getInstance();
-        return patientDao.find(patient);
+    public List<Patient> findAll() {
+        return null;
     }
 }

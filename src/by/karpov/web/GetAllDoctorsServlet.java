@@ -20,7 +20,7 @@ public class GetAllDoctorsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         DoctorServiceImpl doctorService = new DoctorServiceImpl();
-        List<Doctor> doctors = doctorService.read();
+        List<Doctor> doctors = doctorService.findAll();
         StringBuilder result = new StringBuilder();
         for(Doctor doctor : doctors){
             result.append("<p>")

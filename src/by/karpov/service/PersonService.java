@@ -8,7 +8,7 @@ public interface PersonService<V> {
 
     boolean save(V entity);
 
-    List<V> read();
+    Person find(Long id);
 
-    Person find(V entity);
+    List<V> findAll();
 }

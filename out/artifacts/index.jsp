@@ -38,7 +38,7 @@
 <p>
     <a href="/patient/save" class="c">To register</a>
     <a href="http://localhost:8080/doctor/getAll" class="c">Our doctors</a>
-    <a href="" class="c">Sign up for an appointment with the doctor</a>
+    <a href="http://localhost:8080/visit" class="c">Sign up for an appointment with the doctor</a>
 </p>
 
 </body>

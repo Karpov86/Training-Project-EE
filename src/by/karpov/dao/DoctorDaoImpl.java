@@ -47,12 +47,17 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
         return true;
     }
 
-    public boolean updateAddress(Doctor doctor) {
+    public boolean update(Doctor doctor, Doctor newData) {
 
         try (Connection connection = ConnectionManager.newConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE doctors SET address = ? WHERE id = ?;");
-            statement.setString(1, new Doctor().getAddress());
-            statement.setLong(2, doctor.getId());
+            PreparedStatement statement = connection.prepareStatement("UPDATE doctors SET name = ?, surname = ?, address = ?, sex = ?, Specialty = ?, worck_experience = ? WHERE id = ?;");
+            statement.setString(1, newData.getName());
+            statement.setString(2, newData.getSurname());
+            statement.setString(3, newData.getAddress());
+            statement.setString(4, String.valueOf(newData.getSex()));
+            statement.setString(5, String.valueOf(newData.getSpecialty()));
+            statement.setInt(6, newData.getWorkExperience());
+            statement.setLong(7, doctor.getId());
             statement.executeUpdate();
 
             statement.close();
@@ -63,11 +68,11 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
         return true;
     }
 
-    public boolean delete(Doctor doctor) {
+    public boolean delete(Long id) {
 
         try (Connection connection = ConnectionManager.newConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM doctors WHERE id = ?;");
-            statement.setLong(1, doctor.getId());
+            statement.setLong(1, id);
             statement.executeUpdate();
 
             statement.close();
@@ -78,27 +83,7 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
         return true;
     }
 
-    public void read() {
-
-        try (Connection connection = ConnectionManager.newConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM doctors;");
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("name") + " " + resultSet.getString("surname")
-                        + "\naddress: " + resultSet.getString("address") + "\nsex: " + resultSet.getString("sex") + ", specialty: " +
-                        resultSet.getString("specialty") + "\nwork experience " + resultSet.getInt("work_experience") + " years");
-                System.out.println("===========================================================");
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<Doctor> getDoctors() {
+    public List<Doctor> findAll() {
         ArrayList<Doctor> doctors = new ArrayList<>();
         try (Connection connection = ConnectionManager.newConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM doctors;");
@@ -124,14 +109,14 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
     }
 
     @Override
-    public Doctor find(Doctor doctor) {
+    public Doctor find(Long id) {
         Doctor reqDoctor = null;
-        try (Connection connection = ConnectionManager.newConnection()){
+        try (Connection connection = ConnectionManager.newConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM doctors WHERE id = ?;");
-            statement.setLong(1, doctor.getId());
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 reqDoctor = new Doctor.Builder()
                         .setName(resultSet.getString("name"))
                         .setSurname(resultSet.getString("surname"))

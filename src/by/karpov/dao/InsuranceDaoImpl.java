@@ -45,11 +45,6 @@ public class InsuranceDaoImpl implements InsuranceDao<Insurance, Patient> {
     }
 
     @Override
-    public void read() {
-
-    }
-
-    @Override
     public boolean update(Patient patient) {
         return false;
     }

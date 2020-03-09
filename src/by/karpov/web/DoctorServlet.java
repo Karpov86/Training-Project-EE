@@ -30,7 +30,7 @@ public class DoctorServlet extends HttpServlet {
 
         Long id = Long.parseLong(request.getParameter("id"));
         DoctorServiceImpl doctorService = new DoctorServiceImpl();
-        Doctor doctor = doctorService.find(new Doctor.Builder().setId(id).build());
+        Doctor doctor = doctorService.find(id);
         response.getWriter().write(doctor.getName() + " " + doctor.getSurname());
     }
 }

@@ -42,39 +42,47 @@ public class PatientDaoImpl implements PersonDao<Patient> {
     }
 
     @Override
-    public void read() {
+    public boolean update(Patient patient, Patient newData) {
 
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients;");
-            ResultSet resultSet = statement.executeQuery();
+        try (Connection connection = ConnectionManager.newConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE patients SET name = ?, surname = ?, address = ?, sex = ? WHERE id = ?;");
+            statement.setString(1, newData.getName());
+            statement.setString(2, newData.getSurname());
+            statement.setString(3, newData.getAddress());
+            statement.setString(4, String.valueOf(newData.getSex()));
+            statement.setLong(5, patient.getId());
+            statement.executeUpdate();
 
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("name") + " " + resultSet.getString("surname"));
-            }
-
-            resultSet.close();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
-    public boolean updateAddress(Patient patient) {
-        return false;
+    public boolean delete(Long id) {
+
+        try (Connection connection = ConnectionManager.newConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM patients WHERE id = ?;");
+            statement.setLong(1, id);
+            statement.executeUpdate();
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean delete(Patient patient) {
-        return false;
-    }
-
-    @Override
-    public Patient find(Patient patient) {
+    public Patient find(Long id) {
         Patient reqPatient = null;
         try (Connection connection = ConnectionManager.newConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients WHERE id = ?;");
-            statement.setLong(1, patient.getId());
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

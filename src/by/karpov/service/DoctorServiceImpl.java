@@ -13,15 +13,14 @@ public class DoctorServiceImpl implements PersonService<Doctor> {
         return doctorDao.save(doctor);
     }
 
-    @Override
-    public List<Doctor> read() {
+    public List<Doctor> findAll() {
         DoctorDaoImpl doctorDao = DoctorDaoImpl.getInstance();
-        return doctorDao.getDoctors();
+        return doctorDao.findAll();
     }
 
     @Override
-    public Doctor find(Doctor doctor) {
+    public Doctor find(Long id) {
         DoctorDaoImpl doctorDao = DoctorDaoImpl.getInstance();
-        return doctorDao.find(doctor);
+        return doctorDao.find(id);
     }
 }

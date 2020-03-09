@@ -50,7 +50,7 @@ public class VisitDaoImpl implements VisitDao<Doctor, Patient, Visit> {
         return true;
     }
 
-    @Override
+    /*@Override
     public void read() {
 
         try (Connection connection = ConnectionManager.newConnection()) {
@@ -75,7 +75,7 @@ public class VisitDaoImpl implements VisitDao<Doctor, Patient, Visit> {
         }
 
     }
-
+*/
     @Override
     public boolean update(Visit visit) {
         return false;

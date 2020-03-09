@@ -27,7 +27,7 @@ public class PatientServlet extends HttpServlet {
 
         Long id = Long.parseLong(request.getParameter("id"));
         PatientServiceImpl patientService = new PatientServiceImpl();
-        Patient patient = patientService.find(new Patient.Builder().setId(id).build());
+        Patient patient = patientService.find(id);
         response.getWriter().write(patient.getName() + " " + patient.getSurname());
     }
 }
