@@ -13,12 +13,21 @@
 <body>
 <h2 style="color: forestgreen">Choose the specialist</h2>
 <p align="center">
-<form action="${pageContext.request.contextPath}/visit" method="get">
-    <button type="submit" name="specialty">THERAPIST</button>
-    <button inputmode="specialty">SURGEON</button>
-    <button inputmode="specialty">SURGEON</button>
-    <button inputmode="specialty">CARDIOLOGIST</button>
-    <button type="submit" name="specialty">GYNECOLOGIST</button>
+<form action="/visit/therapist">
+    <button>THERAPIST</button>
+</form>
+<form action="/visit/surgeon">
+    <button>SURGEON</button>
+</form>
+<form action="/visit/cardiologist">
+    <button>CARDIOLOGIST</button>
+</form>
+<form action="/visit/gynecologist">
+    <button>GYNECOLOGIST</button>
+</form>
+
+<form action="http://localhost:8080/">
+    <button>To homepage</button>
 </form>
 </p>
 </body>
