@@ -102,4 +102,22 @@ public class PatientDaoImpl implements PersonDao<Patient> {
         }
         return reqPatient;
     }
+
+    public boolean authentication(String name, String surname) {
+        boolean result = false;
+        try (Connection connection = ConnectionManager.newConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients WHERE name = ? AND surname = ?;");
+            statement.setString(1, name);
+            statement.setString(2, surname);
+            ResultSet resultSet = statement.executeQuery();
+
+            result = resultSet.next();
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

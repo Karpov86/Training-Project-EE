@@ -11,13 +11,6 @@ import java.util.List;
 
 public class VisitServiceImpl implements VisitService<Doctor, Patient, Visit> {
 
-    @Override
-    public boolean save(Doctor doctor, Patient patient, Visit visit) {
-        VisitDaoImpl visitDao = VisitDaoImpl.getInstance();
-        visitDao.save(doctor, patient, visit);
-        return true;
-    }
-
     private static List<LocalDate> getNextMonth() {
         List<LocalDate> nextMonth = new ArrayList<>();
         LocalDate actualDate = LocalDate.now();
@@ -25,6 +18,13 @@ public class VisitServiceImpl implements VisitService<Doctor, Patient, Visit> {
             nextMonth.add(actualDate.plusDays(i));
         }
         return nextMonth;
+    }
+
+    @Override
+    public boolean save(Doctor doctor, Patient patient, Visit visit) {
+        VisitDaoImpl visitDao = VisitDaoImpl.getInstance();
+        visitDao.save(doctor, patient, visit);
+        return true;
     }
 
     @Override

@@ -21,15 +21,7 @@ public class GetAllDoctorsServlet extends HttpServlet {
 
         DoctorServiceImpl doctorService = new DoctorServiceImpl();
         List<Doctor> doctors = doctorService.findAll();
-        StringBuilder result = new StringBuilder();
-        for(Doctor doctor : doctors){
-            result.append("<p>")
-                    .append(doctor.getName() + " ")
-                    .append(doctor.getSurname() + " | ")
-                    .append("address: " + doctor.getAddress() + " | ")
-                    .append("sex: " + doctor.getSex() + " | ")
-                    .append("Specialty - " + doctor.getSpecialty()).append("</p>");
-        }
-        response.getWriter().write(result.toString());
+        request.setAttribute("doctors", doctors);
+        request.getRequestDispatcher("/WEB-INF/jsp/doctors.jsp").forward(request, response);
     }
 }

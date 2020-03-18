@@ -129,7 +129,7 @@ public class DoctorDaoImpl implements PersonDao<Doctor> {
 
             resultSet.close();
             statement.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return reqDoctor;

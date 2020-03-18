@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/patient/save", name = "SavePatientServlet")
+@WebServlet(urlPatterns = "/save", name = "SavePatientServlet")
 public class SavePatientServlet extends HttpServlet {
 
 
@@ -26,12 +26,12 @@ public class SavePatientServlet extends HttpServlet {
         if (result) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } else {
-            response.sendRedirect("/WEB-INF/jsp/save-patient.jsp");
+            response.sendRedirect("/WEB-INF/jsp/save.jsp");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("/WEB-INF/jsp/save-patient.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/save.jsp").forward(request, response);
     }
 }

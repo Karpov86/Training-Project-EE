@@ -11,11 +11,11 @@ import java.util.List;
 
 public class VisitDaoImpl implements VisitDao<Doctor, Patient, Visit> {
 
-    private static VisitDaoImpl INSTANCE;
     private static final String GET_ALL_QUERY = "SELECT v.date, d.name, d.surname, d.specialty, p.name, p.surname " +
             "FROM visits v, doctors d, patients p " +
             "WHERE d.id=v.doctor_id " +
             "AND p.id=v.patient_id;";
+    private static VisitDaoImpl INSTANCE;
 
     private VisitDaoImpl() {
     }
